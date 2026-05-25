@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  DropMerger plugin metadata.
+  RocketMod loads the compiled DropMerger.dll and auto-generates
+  DropMerger.configuration.xml from DropMergerConfiguration.cs on first run.
+-->
+<Plugin name="DropMerger">
+  <Version>1.0.0</Version>
+  <Author>imaximum.tech</Author>
+  <Description>
+    Pulls configured resource item drops (logs, ores, stone, ...) into a single
+    ground pile instead of scattering them, reducing item-entity clutter and lag.
+  </Description>
+  <Target>
+    <Unturned>3.26.3.2</Unturned>
+    <RocketMod>4.9.3.18</RocketMod>
+  </Target>
+  <Commands>
+    <Command name="itemid" permission="dropmerger.itemid">Show the item id you are holding</Command>
+  </Commands>
+</Plugin>
