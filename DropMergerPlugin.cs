@@ -47,6 +47,13 @@ namespace DropMerger
                     _ids.Add(id);
         }
 
+        // Player capsule radius is ~0.4m; spawn drops just outside it so the
+        // pickup hitbox isn't swallowed by the player's own collider.
+        private const float CapsuleClearance = 0.6f;
+        // Spawn slightly above the ground so the item settles cleanly instead
+        // of clipping into terrain when the player stands on a slope.
+        private const float SpawnHeightOffset = 0.5f;
+
         private void OnServerSpawningItemDrop(Item item, ref Vector3 location, ref bool shouldAllow)
         {
             if (!shouldAllow || item == null || _ids == null || _ids.Count == 0)
@@ -62,9 +69,13 @@ namespace DropMerger
             if (player == null)
                 return; // no one close enough — leave the drop where it is
 
-            float j = cfg.PileJitter;
+            float angle = Random.Range(0f, Mathf.PI * 2f);
+            float radius = CapsuleClearance + Random.Range(0f, Mathf.Max(0f, cfg.PileJitter));
             Vector3 feet = player.transform.position;
-            location = feet + new Vector3(Random.Range(-j, j), 0f, Random.Range(-j, j));
+            location = new Vector3(
+                feet.x + Mathf.Cos(angle) * radius,
+                feet.y + SpawnHeightOffset,
+                feet.z + Mathf.Sin(angle) * radius);
         }
 
         private static Player FindNearestPlayer(Vector3 pos, float maxDistance)
